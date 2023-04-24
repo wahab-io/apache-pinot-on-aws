@@ -1,0 +1,20 @@
+{
+    "type": "Application",
+    "workload": "PhotoApplication",
+    "context": "PhotoUploadService",
+    "tenant": {
+        "id": "tenant-id-1",
+        "name": "tenant-name-a",
+        "tier": "standard"
+    },
+    "metric": {
+        "name": "DataTransfer",
+        "unit": "MB",
+        "value": 810
+    },
+    "timestamp": "1593734382",
+    "metadata": {
+        "user": "user-4",
+        "resource": "load-balancer"
+    }
+}

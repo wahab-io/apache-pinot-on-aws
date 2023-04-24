@@ -1,0 +1,59 @@
+{
+    "schemaName": "tenant_metrics_rtasummit2023",
+    "dimensionFieldSpecs": [
+        {
+            "name": "type",
+            "dataType": "STRING"
+        },
+        {
+            "name": "workload",
+            "dataType": "STRING"
+        },
+        {
+            "name": "context",
+            "dataType": "STRING"
+        },
+        {
+            "name": "tenant.id",
+            "dataType": "STRING"
+        },
+        {
+            "name": "tenant.name",
+            "dataType": "STRING"
+        },
+        {
+            "name": "tenant.tier",
+            "dataType": "STRING"
+        },
+        {
+            "name": "metric.name",
+            "dataType": "STRING"
+        },
+        {
+            "name": "metric.unit",
+            "dataType": "STRING"
+        },
+        {
+            "name": "metadata.user",
+            "dataType": "STRING"
+        },
+        {
+            "name": "metadata.resource",
+            "dataType": "STRING"
+        }
+    ],
+    "metricFieldSpecs": [
+        {
+            "name": "metric.value",
+            "dataType": "INT"
+        }
+    ],
+    "dateTimeFieldSpecs": [
+        {
+            "name": "timestamp",
+            "dataType": "STRING",
+            "format": "1:DAYS:EPOCH",
+            "granularity": "1:DAYS"
+        }
+    ]
+}

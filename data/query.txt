@@ -1,0 +1,4 @@
+select tenant.tier, metric.name, sum(metric.value), metric.unit
+from tenant_metrics
+group by metric.name, tenant.tier, metric.unit
+order by tenant.tier

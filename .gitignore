@@ -1,0 +1,5 @@
+.DS_Store
+.venv/
+apache-pinot-0.12.1-bin/
+apache-pinot-0.12.1-bin.tar.gz
+data/table-config.json
