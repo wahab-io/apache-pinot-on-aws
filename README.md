@@ -2,7 +2,7 @@
 
 Today, we are going to look at the use case of ISVs that are building amazing SaaS products on AWS by leveraging the breadth and depth of AWS Services. One of the common use case for SaaS is tenant management and measurement. For SaaS providers, its common to have customers across different tiers and also its important to understand the distribution of customers across those tiers and understand customers usage patterns to scale up and scale down their infrastructure.
 
-![Superset Dashboard](./data/dashboard.png)
+![Superset Dashboard](./data/pinot-on-aws-hero.png)
 
 ## Apache Pinot Cluster
 
