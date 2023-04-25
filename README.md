@@ -2,11 +2,36 @@
 
 Today, we are going to look at the use case of ISVs that are building amazing SaaS products on AWS by leveraging the breadth and depth of AWS Services. One of the common use case for SaaS is tenant management and measurement. For SaaS providers, its common to have customers across different tiers and also its important to understand the distribution of customers across those tiers and understand customers usage patterns to scale up and scale down their infrastructure.
 
-![Superset Dashboard](./data/pinot-on-aws-hero.png)
+![Superset Dashboard](./images/pinot-on-aws-hero.png)
 
+> Example JSON object for a single record
+
+```json
+{
+    "type": "Application",
+    "workload": "PhotoApplication",
+    "context": "PhotoUploadService",
+    "tenant": {
+        "id": "tenant-id-1",
+        "name": "tenant-name-a",
+        "tier": "standard"
+    },
+    "metric": {
+        "name": "DataTransfer",
+        "unit": "MB",
+        "value": 810
+    },
+    "timestamp": "1593734382",
+    "metadata": {
+        "user": "user-4",
+        "resource": "load-balancer"
+    }
+}
+```
 ## Apache Pinot Cluster
 
 >EKS cluster with Apache Pinot Quickstart cluster example
+
 ```bash
 kubectl get all -n pinot-quickstart
 ```
@@ -50,10 +75,23 @@ aws kinesis describe-stream --stream-name tenant_metrics_rtasummit2023
 
 Create a real-time apache pinot table that ingest data from Amazon Kinesis
 
+> Download Apache pinot binaries
+```bash
+PINOT_VERSION=0.12.0 #set to the Pinot version you want to use
+
+wget https://downloads.apache.org/pinot/apache-pinot-$PINOT_VERSION/apache-pinot-$PINOT_VERSION-bin.tar.gz
+```
+
+> Extract the files
+
+```bash
+tar -zxvf apache-pinot-$PINOT_VERSION-bin.tar.gz
+```
+
 
 > Change into Apache Pinot binary folder
 ```bash
-cd apache-pinot-0.12.1-bin
+cd apache-pinot-$PINOT_VERSION-bin
 ```
 
 
@@ -99,7 +137,7 @@ kubectl port-forward service/superset 8088:8088 --namespace superset
 
 > Create a database connection, in this case Apache Pinot connection under settings
 
-![](./data/superset-database-settings.png)
+![superset-database-connection](./image/superset-database-settings.png)
 
 The format of the connection string is like below
 
@@ -118,18 +156,45 @@ Once you have the `database connection` setup, you can create a **Dataset** usin
 
 > Create dataset in Apache Superset
 
-![](./data/superset-dataset-create.png)
+![](./images/superset-dataset-create.png)
 
 Navigate to **Charts** and then click **+Chart** button to add new chart. Select your **Dataset** that you created in previous step.
 
 > Create new charts using Dataset
 
-![superset-new-chart](./data/superset-charts-new.png)
+![superset-new-chart](./images/superset-charts-new.png)
 
 Select **Bar Chart** and then click **Create New Chart**
 
 > Provide dimensions, metric, filtering options and name and **Save**
 
-![](./data/superset-charts-tieruage.png)
+![](./images/superset-charts-tieruage.png)
+
+## Cleanup
+
+Follow the steps below to clean-up resources from your account.
+
+> Delete table from Apache Pinot
+
+```bash
+./bin/pinot-admin.sh DeleteTable \
+-tableName tenant_metrics_rtasummit2023 \
+    -controllerHost localhost \
+    -controllerPort 9000 -exec
+```
+
+> Delete schema from Apache Pinot
+```bash
+./bin/pinot-admin.sh DeleteSchema \
+-schemaName tenant_metrics_rtasummit2023 \
+    -controllerHost localhost \
+    -controllerPort 9000 -exec
+```
+
+> Delete kinesis data stream
+
+```bash
+aws kinesis delete-stream --stream-name tenant_metrics_rtasummit2023
+```
 
 
